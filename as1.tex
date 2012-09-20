@@ -25,7 +25,7 @@
 \section{Question 1}
 Let $n$ be a 3 tuple vector, and given that it is along $V1$. It is trivial that  we can imply:
 \[
-        n = \frac{[V1_x, V1_y, V1_z]}{[|V1|,|V1|,|V1|]}
+        n = \frac{V1}{[|V1|,|V1|,|V1|]}
 \]
 where $|V1| = \sqrt{V1_x^2+V1_y^2+V1_z^2}$
 
@@ -41,6 +41,29 @@ Finally, it is also trivial that:
         v = u \times n
 \]
 
-Therefore u,v,n are now all known.
+Thus, we now have u,v,n as:
+\[
+        n = \begin{bmatrix}
+            \frac{V1_x}{\sqrt{V1_x^2+V1_y^2+V1_z^2}}
+            &
+            \frac{V1_y}{\sqrt{V1_x^2+V1_y^2+V1_z^2}}
+            &
+            \frac{V1_z}{\sqrt{V1_x^2+V1_y^2+V1_z^2}}
+            \end{bmatrix}
+\]
+\[
+        u = \begin{bmatrix}
+            a
+            &
+            b
+            &
+            c 
+            \end{bmatrix}
+\]
+\[
+        v = \begin{bmatrix}
+            a & b & c 
+            \end{bmatrix}
+\]
 
 \end{document}
