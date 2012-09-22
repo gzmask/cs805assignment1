@@ -41,4 +41,27 @@ Finally, it is also trivial that:
         v = u \times n
 \]
 
+\section{Question 2}
+According to the requirement, we need a function that does the following:
+\begin{verbatim}
+<<src/main.cpp>>=
+void main () {
+  uvn_type uvn = get_uvn(V1, V2);
+
+  return 0;
+}
+@
+\end{verbatim}
+
+To define the function, we implement a file to contain our function:
+\begin{verbatim}
+<<src/get_uvn.cpp>>=
+void get_uvn() {
+  uvn_type result_uvn;
+
+  return result_uvn;
+}
+@
+\end{verbatim}
+
 \end{document}
