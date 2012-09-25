@@ -42,22 +42,30 @@ Finally, it is also trivial that:
 \]
 
 \section{Question 2}
-According to the requirement, we need a function that does the following:
+According to the requirement, we need a function that gets the new cordinate from our two vectors.
+
 \begin{verbatim}
 <<src/main.cpp>>=
+#include <iostream>
+typedef float Point[3];
+typedef Point UVN[3];
+using namespace std;
+
 void main () {
-  uvn_type uvn = get_uvn(V1, V2);
+  Point V1;
+  Point V2;
+  UVN uvn = get_uvn(V1, V2);
 
   return 0;
 }
 @
 \end{verbatim}
 
-To define the function, we implement a file to contain our function:
+And here is the function:
 \begin{verbatim}
 <<src/get_uvn.cpp>>=
-void get_uvn() {
-  uvn_type result_uvn;
+void get_uvn(V1, V2) {
+  UVN result_uvn;
 
   return result_uvn;
 }
