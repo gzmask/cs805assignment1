@@ -47,10 +47,7 @@ According to the requirement, we need a function that gets the new cordinate fro
 \begin{verbatim}
 <<src/main.cpp>>=
 #include <iostream>
-#include "points.hpp"
-#include "get_uvn.cpp"
-
-using namespace std;
+#include "get_uvn.h"
 
 int main () {
   Point V1;
@@ -62,10 +59,10 @@ int main () {
 @
 \end{verbatim}
 
-here is the function:
+here is the function.
 \begin{verbatim}
 <<src/get_uvn.cpp>>=
-#include "points.hpp"
+#include "get_uvn.h"
 
 UVN get_uvn(Point V1, Point V2) {
   UVN result_uvn;
@@ -75,19 +72,24 @@ UVN get_uvn(Point V1, Point V2) {
 @
 \end{verbatim}
 
-of course we need a nice header file to avoid complicated typedefs:
+we need a header file to avoid complicated typedefs.
 \begin{verbatim}
-<<src/points.hpp>>=
-
-typedef float Point[3];
-typedef Point UVN[3];
+<<src/get_uvn.h>>=
+#ifndef POINTS_HPP
+#define POINTS_HPP
+#include <tr1/array>
+typedef std::tr1::array<float, 3> Point;
+typedef std::tr1::array<Point, 3> UVN;
+ 
+UVN get_uvn(Point V1, Point V2);
+#endif
 @
 \end{verbatim}
 
-here is the command to link these files:
+here is the command to link these files.
 \begin{verbatim}
 <<compile.sh>>=
-clang++ -o bin/a.out src/main.cpp src/get_uvn.cpp
+clang++ -std=c++11 -o bin/a.out src/main.cpp src/get_uvn.cpp
 @
 \end{verbatim}
 

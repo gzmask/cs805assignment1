@@ -1,8 +1,5 @@
 #include <iostream>
-#include "points.hpp"
-#include "get_uvn.cpp"
-
-using namespace std;
+#include "get_uvn.h"
 
 int main () {
   Point V1;
