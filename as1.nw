@@ -77,7 +77,7 @@ UVN get_uvn(Point V1, Point V2) {
 
 of course we need a nice header file to avoid complicated typedefs:
 \begin{verbatim}
-<<src/points.hpp>>=
+<<src/points.cpp>>=
 #include "get_uvn.cpp"
 
 typedef float Point[3];
@@ -85,7 +85,7 @@ typedef Point UVN[3];
 @
 \end{verbatim}
 
-kere is the command to link these files:
+here is the command to link these files:
 \begin{verbatim}
 <<compile.sh>>=
 clang++ -o bin/a.out src/main.cpp src/get_uvn.cpp
