@@ -47,11 +47,12 @@ According to the requirement, we need a function that gets the new cordinate fro
 \begin{verbatim}
 <<src/main.cpp>>=
 #include <iostream>
-typedef float Point[3];
-typedef Point UVN[3];
+#include "points.hpp"
+#include "get_uvn.cpp"
+
 using namespace std;
 
-void main () {
+int main () {
   Point V1;
   Point V2;
   UVN uvn = get_uvn(V1, V2);
@@ -61,14 +62,33 @@ void main () {
 @
 \end{verbatim}
 
-And here is the function:
+here is the function:
 \begin{verbatim}
 <<src/get_uvn.cpp>>=
-void get_uvn(V1, V2) {
+#include "points.hpp"
+
+UVN get_uvn(Point V1, Point V2) {
   UVN result_uvn;
 
   return result_uvn;
 }
+@
+\end{verbatim}
+
+of course we need a nice header file to avoid complicated typedefs:
+\begin{verbatim}
+<<src/points.hpp>>=
+#include "get_uvn.cpp"
+
+typedef float Point[3];
+typedef Point UVN[3];
+@
+\end{verbatim}
+
+kere is the command to link these files:
+\begin{verbatim}
+<<compile.sh>>=
+clang++ -o bin/a.out src/main.cpp src/get_uvn.cpp
 @
 \end{verbatim}
 
