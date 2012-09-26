@@ -42,17 +42,30 @@ Finally, it is also trivial that:
 \]
 
 \section{Question 2}
-According to the requirement, we need a function that gets the new cordinate from our two vectors.
+According to the requirement, we need a function that gets the new coordination U, V, N from our two vectors.
 
+Assuming we have two points, our function will get the U, V, N from them. So I put it in our main function.
 \begin{verbatim}
 <<src/main.cpp>>=
 #include <iostream>
+#include <typeinfo>//debugging only
 #include "get_uvn.h"
 
 int main () {
   Point V1;
-  Point V2;
-  UVN uvn = get_uvn(V1, V2);
+  decltype(V1) V2;//c11: V2 is of same type of V1
+
+  V1 = {1,2,3};
+  V2 = {3,2,1};
+
+  auto uvn = get_uvn(V1, V2);//c11: compiler will replace 'auto' with the right type
+
+  for (auto point : uvn) {//c11:for each point in uvn
+    //std::cout<<typeid(point).name()<<std::endl;
+    for (auto num : point) {//c11:for each number in point
+      std::cout<<num<<std::endl;
+    }
+  }
 
   return 0;
 }
@@ -66,7 +79,7 @@ here is the function.
 
 UVN get_uvn(Point V1, Point V2) {
   UVN result_uvn;
-
+  result_uvn = {V1, V1, V1};
   return result_uvn;
 }
 @
@@ -86,7 +99,7 @@ UVN get_uvn(Point V1, Point V2);
 @
 \end{verbatim}
 
-here is the command to link these files.
+here is the command to link these files. Notice that I am using -std=c++11 flag to enable c++ 11 features.
 \begin{verbatim}
 <<compile.sh>>=
 clang++ -std=c++11 -o bin/a.out src/main.cpp src/get_uvn.cpp
