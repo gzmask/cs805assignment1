@@ -202,6 +202,15 @@ Similarly, by definition of matrix multiplication,
 \]
 \[ 
   \begin{bmatrix}
+  u_x^2 + u_y^2 + u_z^2
+  & u_x \times v_x + u_y \times v_y + u_z \times v_y
+  & u_x \times n_x + u_y \times n_y + u_z \times n_y
+  & 0 \\
+
+  v_x \times u_x + v_y \times u_y + v_z \times u_z
+  & v_x^2+v_y^2+v_z^2
+  & v_x \times n_x + v_y \times n_y + v_z \times n_z
+  & 0 
   \end{bmatrix}
 \]
 
