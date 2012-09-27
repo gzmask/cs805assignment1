@@ -33,38 +33,38 @@ Thus n is now known.
 
 By the definition of cross product, denoted as $\times$ here, knowning that $V1$ and $V2$ is non-collinear, we can also derive:
 \[
-        u = \frac{V2 \times V3}{[|V2 \times V3|,|V2 \times V3|,|V2 \times V3|]}
+        u = \frac{V2 \times V1}{[|V2 \times V1|,|V2 \times V1|,|V2 \times V1|]}
 \]
 
 Finally, it is also trivial that:
 \[
-        v = u \times n
+        v = n \times u
 \]
 
 \section{Question 2}
 According to the requirement, we need a function that gets the new coordination U, V, N from our two vectors.
 
-Assuming we have two points, our function will get the U, V, N from them. So I put it in our main function.
+First, assuming we have the function already. Thus giving it two points, our function will get the U, V, N from them.
 \begin{verbatim}
 <<src/main.cpp>>=
 #include <iostream>
 #include <typeinfo>//debugging only
-#include "get_uvn.h"
+#include "util.h"
 
 int main () {
   Point V1;
   decltype(V1) V2;//c11: V2 is of same type of V1
 
-  V1 = {1,2,3};
-  V2 = {3,2,1};
+  V1 = {0,0,1};
+  V2 = {0,1,1};
 
   auto uvn = get_uvn(V1, V2);//c11: compiler will replace 'auto' with the right type
 
   for (auto point : uvn) {//c11:for each point in uvn
-    //std::cout<<typeid(point).name()<<std::endl;
     for (auto num : point) {//c11:for each number in point
-      std::cout<<num<<std::endl;
+      std::cout<<num<<',';
     }
+    std::cout<<std::endl;
   }
 
   return 0;
@@ -74,20 +74,47 @@ int main () {
 
 here is the function.
 \begin{verbatim}
-<<src/get_uvn.cpp>>=
-#include "get_uvn.h"
+<<src/util.cpp>>=
+#include "util.h"
+#include <math.h>
 
 UVN get_uvn(Point V1, Point V2) {
-  UVN result_uvn;
-  result_uvn = {V1, V1, V1};
+
+  //get n, which is just normalized V1
+  Point n = { V1[0]/get_length(V1), 
+              V1[1]/get_length(V1), 
+              V1[2]/get_length(V1) }; 
+
+
+  //get u, which is normalized V2 x V1
+  Point u_ = { V2[1]*V1[2] - V2[2]*V1[1],
+              V2[2]*V1[0] - V2[0]*V1[2],
+              V2[0]*V1[1] - V2[1]*V1[0]};
+  Point u = { (V2[1]*V1[2] - V2[2]*V1[1])/get_length(u_),
+              (V2[2]*V1[0] - V2[0]*V1[2])/get_length(u_),
+              (V2[0]*V1[1] - V2[1]*V1[0])/get_length(u_)};
+
+  //get v, which is n x u
+  Point v_ = { n[1]*u[2] - n[2]*u[1],
+              n[2]*u[0] - n[0]*u[2],
+              n[0]*u[1] - n[1]*u[0]};
+  Point v = { (n[1]*u[2] - n[2]*u[1])/get_length(v_),
+              (n[2]*u[0] - n[0]*u[2])/get_length(v_),
+              (n[0]*u[1] - n[1]*u[0])/get_length(v_)};
+
+  UVN result_uvn = {u, v, n};
   return result_uvn;
+}
+
+float get_length(Point X) {
+  return abs(sqrt(pow(X[0],2)+pow(X[1],2)+pow(X[2],2)));
 }
 @
 \end{verbatim}
 
 we need a header file to avoid complicated typedefs.
 \begin{verbatim}
-<<src/get_uvn.h>>=
+<<src/util.h>>=
 #ifndef POINTS_HPP
 #define POINTS_HPP
 #include <tr1/array>
@@ -95,6 +122,7 @@ typedef std::tr1::array<float, 3> Point;
 typedef std::tr1::array<Point, 3> UVN;
  
 UVN get_uvn(Point V1, Point V2);
+float get_length(Point X);
 #endif
 @
 \end{verbatim}
@@ -102,8 +130,12 @@ UVN get_uvn(Point V1, Point V2);
 here is the command to link these files. Notice that I am using -std=c++11 flag to enable c++ 11 features.
 \begin{verbatim}
 <<compile.sh>>=
-clang++ -std=c++11 -o bin/a.out src/main.cpp src/get_uvn.cpp
+clang++ -std=c++11 -o bin/a.out src/main.cpp src/util.cpp
 @
 \end{verbatim}
+
+Finally, the output binary executable is bin/a.out
+
+\section{Question 3}
 
 \end{document}
