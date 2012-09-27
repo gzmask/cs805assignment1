@@ -140,5 +140,69 @@ clang++ -std=c++11 -o bin/get_uvn_test src/main.cpp src/util.cpp
 \section{Question 3}
 
 \subsection{part a}
+By definition of matrix multiplication,
+\[ 
+  T \times T^{-1} =
+\]
+\[
+  \begin{bmatrix}
+  1 + 0 + 0 + 0
+  & 0 + 0 + 0 + 0 
+  & 0 + 0 + 0 + 0 
+  & VRP_x + 0 + 0 + -VRP_x \\
+
+  0 + 0 + 0 + 0
+  & 0 + 1 + 0 + 0 
+  & 0 + 0 + 0 + 0 
+  & 0 + VRP_y + 0 + -VRP_y \\
+
+  0 + 0 + 0 + 0
+  & 0 + 0 + 0 + 0 
+  & 0 + 0 + 1 + 0 
+  & 0 + 0 + VRP_z + -VRP_z \\
+
+  0 + 0 + 0 + 0
+  & 0 + 0 + 0 + 0 
+  & 0 + 0 + 0 + 0 
+  & 0 + 0 + 0 + 1 \\
+  \end{bmatrix}
+\]
+\[
+  =
+  \begin{bmatrix}
+  1
+  & 0
+  & 0
+  & 0 \\
+
+  0
+  & 1
+  & 0
+  & 0 \\
+
+  0
+  & 0
+  & 1
+  & 0 \\
+
+  0
+  & 0
+  & 0
+  & 1 \\
+  \end{bmatrix}
+  = I
+\]
+ 
+It is also trivial that any n-tuple vector VRP in n-demensional space will fall into this pattern.
+
+\subsection{part b}
+Similarly, by definition of matrix multiplication,
+\[ 
+  R \times R^{-1} =
+\]
+\[ 
+  \begin{bmatrix}
+  \end{bmatrix}
+\]
 
 \end{document}
