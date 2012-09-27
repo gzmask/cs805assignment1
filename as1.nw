@@ -1,6 +1,6 @@
 \title{cs805 Assignment 1}
 \author{
-  Shulang Lei\\
+  Ray Shulang Lei\\
   200253624\\
   Department of Computer Science\\
   University of Regina\\
@@ -72,7 +72,7 @@ int main () {
 @
 \end{verbatim}
 
-I use a header file for typedefs and function declaration.
+I use a header file for typedefs and function declarations for more readable code.
 \begin{verbatim}
 <<src/util.h>>=
 #ifndef POINTS_HPP
@@ -81,9 +81,9 @@ I use a header file for typedefs and function declaration.
 typedef std::tr1::array<float, 3> Point;
 typedef std::tr1::array<Point, 3> UVN;
 UVN get_uvn(Point V1, Point V2);
-float get_length(Point X);
-Point cross_product(Point x, Point y);
-Point normalize(Point x);
+float get_length(Point);
+Point cross_product(Point, Point);
+Point normalize(Point);
 #endif
 @
 \end{verbatim}
@@ -111,19 +111,20 @@ UVN get_uvn(Point V1, Point V2) {
 //normalize a point
 Point normalize(Point x) {
   return { x[0]/get_length(x), 
-              x[1]/get_length(x), 
-              x[2]/get_length(x) }; 
+           x[1]/get_length(x), 
+           x[2]/get_length(x) }; 
 }
 
 //calculates cross product of two points
 Point cross_product(Point x, Point y) {
   return { x[1]*y[2] - x[2]*y[1],
-              x[2]*y[0] - x[0]*y[2],
-              x[0]*y[1] - x[1]*y[0]};
+           x[2]*y[0] - x[0]*y[2],
+           x[0]*y[1] - x[1]*y[0]};
 }
 
+//calculates length of a point
 float get_length(Point x) {
-  return abs(sqrt(pow(x[0],2)+pow(x[1],2)+pow(x[2],2)));
+  return sqrt(pow(x[0],2)+pow(x[1],2)+pow(x[2],2));
 }
 @
 \end{verbatim}

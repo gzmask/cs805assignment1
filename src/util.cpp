@@ -18,17 +18,18 @@ UVN get_uvn(Point V1, Point V2) {
 //normalize a point
 Point normalize(Point x) {
   return { x[0]/get_length(x), 
-              x[1]/get_length(x), 
-              x[2]/get_length(x) }; 
+           x[1]/get_length(x), 
+           x[2]/get_length(x) }; 
 }
 
 //calculates cross product of two points
 Point cross_product(Point x, Point y) {
   return { x[1]*y[2] - x[2]*y[1],
-              x[2]*y[0] - x[0]*y[2],
-              x[0]*y[1] - x[1]*y[0]};
+           x[2]*y[0] - x[0]*y[2],
+           x[0]*y[1] - x[1]*y[0]};
 }
 
+//calculates length of a point
 float get_length(Point x) {
-  return abs(sqrt(pow(x[0],2)+pow(x[1],2)+pow(x[2],2)));
+  return sqrt(pow(x[0],2)+pow(x[1],2)+pow(x[2],2));
 }
