@@ -48,7 +48,7 @@ According to the requirement, we need a function that gets the new coordination 
 
 First, assuming we have the function already. Thus giving it two points, our function will get the U, V, N from them.
 \begin{verbatim}
-<<src/main.cpp>>=
+<<src/q1_main.cpp>>=
 #include <iostream>
 #include <typeinfo>//debugging only
 #include "util.h"
@@ -57,8 +57,8 @@ int main () {
   Point V1;
   decltype(V1) V2;// V2 is of same type of V1
 
-  V1 = {0,0,1000};
-  V2 = {0,1,1};
+  V1 = {0,0,1000,1};
+  V2 = {0,1,1,1};
 
   auto uvn = get_uvn(V1, V2);// compiler will replace 'auto' with the right type
 
@@ -80,8 +80,8 @@ I use a header file for typedefs and function declarations for more readable cod
 #ifndef POINTS_HPP
 #define POINTS_HPP
 #include <tr1/array>
-typedef std::tr1::array<float, 3> Point;
-typedef std::tr1::array<Point, 3> UVN;
+typedef std::tr1::array<float, 4> Point;
+typedef std::tr1::array<Point, 4> UVN;
 UVN get_uvn(Point V1, Point V2);
 float get_length(Point);
 Point cross_product(Point, Point);
@@ -131,10 +131,10 @@ float get_length(Point x) {
 @
 \end{verbatim}
 
-Furthermore, this is the command to link these files. Notice that I am using -std=c++11 flag to enable c++ 11 features. The output binary executable is bin/get\_uvn\_test
+Furthermore, this is the command to link these files. Notice that I am using -std=c++11 flag to enable c++ 11 features. The output binary executable is bin/q1
 \begin{verbatim}
-<<compile.sh>>=
-clang++ -std=c++11 -o bin/get_uvn_test src/main.cpp src/util.cpp
+<<compile_q1.sh>>=
+clang++ -std=c++11 -o bin/q1 src/q1_main.cpp src/util.cpp
 @
 \end{verbatim}
 
@@ -280,6 +280,41 @@ With the fact that u, v, n are orthogonal to each other,
 \]
 
 \subsection{part c}
+To get $M_{wc}=R \times T$, I need to get $R$ and $T$ first.
 
+\begin{verbatim}
+<<src/matrix.cpp>>=
+#include "matrix.h"
+@
+\end{verbatim}
+
+A matrix is simply 4 of 4-tuple vectors. So I defined my 4-tuple vector as Point type, and 4 points as matrix type.
+\begin{verbatim}
+<<src/matrix.h>>=
+#ifndef MATRIX_H
+#define MATRIX_H
+#include <tr1/array>
+typedef std::tr1::array<float, 4> Point;
+typedef std::tr1::array<Point, 4> Matrix;
+#endif
+@
+\end{verbatim}
+
+\begin{verbatim}
+<<src/q3pc_main.cpp>>=
+#include <iostream>
+#include "matrix.h"
+int main(){
+
+  return 0;
+}
+@
+\end{verbatim}
+
+\begin{verbatim}
+<<compile_q3pc.sh>>=
+clang++ -std=c++11 -o bin/q3pc src/q1pc_main.cpp src/util.cpp
+@
+\end{verbatim}
 
 \end{document}
