@@ -44,9 +44,9 @@ Finally, it is also trivial that:
 \]
 
 \section{Question 2}
-According to the requirement, we need a function that gets the new coordination U, V, N from our two vectors.
+According to the requirement, we need a function that gets the new coordination U, V, N from two vectors.
 
-First, assuming we have the function already. Thus giving it two points, our function will get the U, V, N from them.
+First, assuming we have the function already. Thus giving it two vecotrs, our function will get the U, V, N from them.
 \begin{verbatim}
 <<src/q1_main.cpp>>=
 #include <iostream>
@@ -54,16 +54,17 @@ First, assuming we have the function already. Thus giving it two points, our fun
 #include "util.h"
 
 int main () {
-  Point V1;
+  Vecotr V1;
   decltype(V1) V2;// V2 is of same type of V1
 
-  V1 = {0,0,1000,1};
-  V2 = {0,1,1,1};
+  V1 = {0,0,1000};
+  V2 = {0,1,1};
 
-  auto uvn = get_uvn(V1, V2);// compiler will replace 'auto' with the right type
+  //call our function to get the uvn. auto will be replaced by the actual time by preprocessor.
+  auto uvn = get_uvn(V1, V2);
 
-  for (auto point : uvn) {//for each point in uvn
-    for (auto num : point) {//for each number in point
+  for (auto vecotr : uvn) {//for each Vecotr in uvn
+    for (auto num : vecotr) {//for each number in Vecotr
       std::cout<<num<<',';
     }
     std::cout<<std::endl;
@@ -77,15 +78,15 @@ int main () {
 I use a header file for typedefs and function declarations for more readable code.
 \begin{verbatim}
 <<src/util.h>>=
-#ifndef POINTS_HPP
-#define POINTS_HPP
+#ifndef VecotrS_HPP
+#define VecotrS_HPP
 #include <tr1/array>
-typedef std::tr1::array<float, 4> Point;
-typedef std::tr1::array<Point, 4> UVN;
-UVN get_uvn(Point V1, Point V2);
-float get_length(Point);
-Point cross_product(Point, Point);
-Point normalize(Point);
+typedef std::tr1::array<float, 3> Vecotr;
+typedef std::tr1::array<Vecotr, 3> UVN;
+UVN get_uvn(Vecotr V1, Vecotr V2);
+float get_length(Vecotr);
+Vecotr cross_product(Vecotr, Vecotr);
+Vecotr normalize(Vecotr);
 #endif
 @
 \end{verbatim}
@@ -97,35 +98,36 @@ Finally, here is the function.
 #include <math.h>
 
 //get u,v,n from two non-collinear vectors
-UVN get_uvn(Point V1, Point V2) {
+UVN get_uvn(Vecotr V1, Vecotr V2) {
+
   //get n, which is just normalized V1
-  Point n = normalize(V1); 
+  Vecotr n = normalize(V1); 
 
   //get u, which is normalized V2 x V1
-  Point u = normalize(cross_product(V2, V1));
+  Vecotr u = normalize(cross_product(V2, V1));
 
   //get v, which is normalized n x u
-  Point v = normalize(cross_product(n, u));
+  Vecotr v = normalize(cross_product(n, u));
 
   return {u,v,n};
 }
 
-//normalize a point
-Point normalize(Point x) {
+//normalize a Vecotr
+Vecotr normalize(Vecotr x) {
   return { x[0]/get_length(x), 
            x[1]/get_length(x), 
            x[2]/get_length(x) }; 
 }
 
-//calculates cross product of two points
-Point cross_product(Point x, Point y) {
+//calculates cross product of two Vecotrs
+Vecotr cross_product(Vecotr x, Vecotr y) {
   return { x[1]*y[2] - x[2]*y[1],
            x[2]*y[0] - x[0]*y[2],
            x[0]*y[1] - x[1]*y[0]};
 }
 
-//calculates length of a point
-float get_length(Point x) {
+//calculates length of a Vecotr
+float get_length(Vecotr x) {
   return sqrt(pow(x[0],2)+pow(x[1],2)+pow(x[2],2));
 }
 @
@@ -195,8 +197,6 @@ By definition of matrix multiplication,
   = I
 \]
  
-It is also trivial that any n-tuple vector VRP in n-demensional space will fall into this pattern.
-
 \subsection{part b}
 Similarly, by definition of matrix multiplication,
 \[ 
@@ -282,21 +282,32 @@ With the fact that u, v, n are orthogonal to each other,
 \subsection{part c}
 To get $M_{wc}=R \times T$, I need to get $R$ and $T$ first.
 
-\begin{verbatim}
-<<src/matrix.cpp>>=
-#include "matrix.h"
-@
-\end{verbatim}
-
-A matrix is simply 4 of 4-tuple vectors. So I defined my 4-tuple vector as Point type, and 4 points as matrix type.
+A matrix is simply 4 of 4-tuple vectors. So I defined my 4-tuple vector as Row type, and 4 Rows as Matrix type.
+A Point type is also defined to represent VRP, VPN, VUP, LRP, LPN and LUP.
 \begin{verbatim}
 <<src/matrix.h>>=
 #ifndef MATRIX_H
 #define MATRIX_H
 #include <tr1/array>
-typedef std::tr1::array<float, 4> Point;
-typedef std::tr1::array<Point, 4> Matrix;
+typedef std::tr1::array<float, 3> Point;
+typedef std::tr1::array<float, 4> Row;
+typedef std::tr1::array<Row, 4> Matrix;
+Matrix get_T(Point);
 #endif
+@
+\end{verbatim}
+
+First, I need a function to get the tranformation matrix from VRP
+\begin{verbatim}
+<<src/matrix.cpp>>=
+#include "matrix.h"
+Matrix get_T(Point vrp) {
+  Row r1 = {1, 0, 0, -vrp[0]};
+  Row r2 = {0, 1, 0, -vrp[1]};
+  Row r3 = {0, 0, 1, -vrp[2]};
+  Row r4 = {0, 0, 0, 1};
+  return {r1, r2, r3, r4};
+}
 @
 \end{verbatim}
 
@@ -305,7 +316,14 @@ typedef std::tr1::array<Point, 4> Matrix;
 #include <iostream>
 #include "matrix.h"
 int main(){
-
+  Point vrp = {6.0, 10.0, -5.0};
+  auto mt = get_T(vrp);
+  for (auto row : mt) {
+    for (auto num : row) {
+      std::cout<<num<<',';
+    }
+    std::cout<<std::endl;
+  }
   return 0;
 }
 @
@@ -313,7 +331,7 @@ int main(){
 
 \begin{verbatim}
 <<compile_q3pc.sh>>=
-clang++ -std=c++11 -o bin/q3pc src/q1pc_main.cpp src/util.cpp
+clang++ -std=c++11 -o bin/q3pc src/q3pc_main.cpp src/matrix.cpp
 @
 \end{verbatim}
 
