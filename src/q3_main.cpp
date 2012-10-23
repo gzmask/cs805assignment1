@@ -35,8 +35,8 @@ int main(){
   pmatrix("light to world matrix:", m_lw);
 
   //print results
-  pmatrix("camera to light matrix:", mul(m_cw, m_wl));
-  pmatrix("light to camera matrix:", mul(m_lw, m_wc));
+  pmatrix("camera to light matrix:", mul(m_wl, m_cw));
+  pmatrix("light to camera matrix:", mul(m_wc, m_lw));
 
   //now test the points
   Row t1 = {0.0, 0.0, 0.0, 1.0}; 

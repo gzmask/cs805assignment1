@@ -34,12 +34,8 @@ Matrix get_R(Point vrp, Point vpn, Point vup) {
   //first get the translation matrix from world to view
   auto mt = get_T(vrp);
 
-  //second, translate the points to origin
-  auto vpn_ = mul(mt, vpn);
-  auto vup_ = mul(vup, mt);
-
-  //now we can see vpn_ and vup_ as vectors. such that we can apply them to get_uvn function from q2
-  auto uvn = get_uvn(vup_, vpn_);
+  //we can see vpn_ and vup_ as vectors. such that we can apply them to get_uvn function from q2
+  auto uvn = get_uvn(vup, vpn);
   //finally contruct our roation matrix using method 2 on class notes
   Row r1 = { uvn[0][0],uvn[0][1],uvn[0][2],0 };
   Row r2 = { uvn[1][0],uvn[1][1],uvn[1][2],0 };
